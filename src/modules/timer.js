@@ -27,8 +27,6 @@ const timer = (deadline) => {
       timerMinutes.textContent = addZero(getTime.minutes);
       timerSeconds.textContent = addZero(getTime.seconds);
 
-      console.log("tick2");
-
       if (getTime.timeRemaining <= 0) {
          clearInterval(idInterval);
       }
