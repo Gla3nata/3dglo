@@ -1,14 +1,13 @@
 const modal = () => {
     const modal = document.querySelector('.popup')
     const buttons = document.querySelectorAll('.popup-btn')
-    const closeBtn = modal.querySelector('.popup-close')
 
     const isMobile = window.innerWidth < 768
-     const animateModal = () => {
+    const animateModal = () => {
         let opacity = 0;
         modal.style.display = 'block';
         modal.style.opacity = opacity;
-   
+
 
         const fadeIn = () => {
             if (opacity < 1) {
@@ -18,9 +17,9 @@ const modal = () => {
             } else {
                 modal.style.opacity = 1;
             }
-            }
-             fadeIn();
         }
+        fadeIn();
+    }
     buttons.forEach(btn => {
         btn.addEventListener('click', () => {
             if (isMobile) {
@@ -30,9 +29,13 @@ const modal = () => {
             }
         });
     });
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none'
-        modal.style.opacity = '';
+
+    modal.addEventListener('click', (e) => {
+        if (!e.target.closest('.popup-content') || e.target.classList.contains('popup-close')) {
+            modal.style.display = 'none'
+            modal.style.opacity = '';
+        }
+
     })
 }
 
