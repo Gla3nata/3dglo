@@ -6,9 +6,7 @@ const tabs = () => {
 
     tabPanel.addEventListener('click', (e) => {
         if (e.target.closest('.service-header-tab')){
-            const tabBtn = e.target.closest('.service-header-tab')
-            console.log(tabBtn);
-            
+            const tabBtn = e.target.closest('.service-header-tab')  
             tabs.forEach((tab, index) => {
                 if(tab === tabBtn){
                     tab.classList.add('active')

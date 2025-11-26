@@ -4,7 +4,7 @@ const menu = () => {
 
      const handleMenu = () => {
           menu.classList.toggle('active-menu')
-     }  
+     }
      menuBtn.addEventListener('click', handleMenu);
 
      menu.addEventListener('click', (e) => {
@@ -12,8 +12,12 @@ const menu = () => {
           ) {
                handleMenu();
           }
-
      })
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('menu') && !e.target.closest('.menu')) {
+            menu.classList.remove('active-menu');
+        }
+    });
 }
 
 export default menu;
