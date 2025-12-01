@@ -1,9 +1,19 @@
 const slider = () => {
     const sliderBlock = document.querySelector('.portfolio-content')
     const slides = document.querySelectorAll('.portfolio-item')
-    const dots = document.querySelectorAll('.dot')
     const timerInterval = 2000
 
+    let dotsList = document.querySelector('.portfolio-dots');
+    slides.forEach((slide, index) => {
+        const dot = document.createElement('li');
+        dot.classList.add('dot');
+        if (index === 0) {
+            dot.classList.add('dot-active');
+        }
+        dotsList.append(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot')
     let currentSlide = 0
     let interval
 
@@ -68,7 +78,7 @@ const slider = () => {
     }, true)
     sliderBlock.addEventListener('mouseleave', (e) => {
         if (e.target.matches('.dot, .portfolio-btn')) {
-           startSlide(timerInterval)
+            startSlide(timerInterval)
         }
     }, true)
     startSlide(timerInterval)
