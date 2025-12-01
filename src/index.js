@@ -10,7 +10,7 @@ import slider from './modules/slider.js';
 timer('24 november 2025');
 menu();
 modal();
-calc();
+calc(100);
 tabs();
 valid();
 slider();
