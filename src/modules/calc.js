@@ -1,3 +1,5 @@
+import { animateNumber } from './helpers';
+
 const calc = (price = 100) => {
     const calcInputs = document.querySelectorAll('.calc-block input')
     const calcBlock = document.querySelector('.calc-block')
@@ -17,28 +19,6 @@ const calc = (price = 100) => {
             }
         })
     });
-
-
-    const animateTotal = (start, end, duration = 500) => {
-        const startTime = performance.now();
-
-
-        const step = (now) => {
-            const progress = Math.min((now - startTime) / duration, 1);
-            const value = Math.floor(start + (end - start) * progress);
-            total.textContent = value;
-
-
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            } else {
-                currentTotal = end;
-            }
-        };
-
-
-        requestAnimationFrame(step);
-    };
 
 
     const countCalc = () => {
@@ -80,7 +60,7 @@ const calc = (price = 100) => {
         }
 
 
-        animateTotal(start, end);
+        animateNumber(total, start, end)
     }
     calcBlock.addEventListener('input', (e) => {
         if (e.target === calcType || e.target === calcSquare ||
