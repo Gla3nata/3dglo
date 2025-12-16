@@ -28,7 +28,7 @@ const sendForm = ({ formId, someElem = [] }) => {
     }
 
     const submitForm = () => {
-         const formElements = form.querySelectorAll('input')
+        const formElements = form.querySelectorAll('input')
         const formData = new FormData(form)
         const formBody = {}
 
@@ -49,7 +49,7 @@ const sendForm = ({ formId, someElem = [] }) => {
             }
         })
 
-        console.log('sub');
+        console.log('submit');
 
         if (validate(formElements)) {
             sendData(formBody)
@@ -65,19 +65,43 @@ const sendForm = ({ formId, someElem = [] }) => {
         } else {
             alert('заполнить данные')
         }
-
     }
 
-    try{
-        if(!form){
-            throw new Error ('Верните форму на место')
-        }
-    form.addEventListener('submit', (event) => {
-        event.preventDefault()
+    const checkTextInputs = () => {
+        const phoneInputs = form.querySelectorAll('input[name="user_phone"]');
+        const nameInputs = form.querySelectorAll('input[name="user_name"]');
+        const messageInputs = form.querySelectorAll('[name="user_message"]');
 
-        submitForm()
-    })
-    }catch(error){
+        phoneInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                input.value = input.value.replace(/[^0-9+()-]/g, '');
+            });
+        });
+
+        nameInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                input.value = input.value.replace(/[^А-Яа-яЁё\s]/g, '');
+            });
+        });
+
+        messageInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                input.value = input.value.replace(/[^А-Яа-яЁё\s0-9.,!?-]/g, '');
+            });
+        });
+    };
+
+    try {
+        if (!form) {
+            throw new Error('Верните форму на место')
+        }
+        checkTextInputs();
+        form.addEventListener('submit', (event) => {
+            event.preventDefault()
+
+            submitForm()
+        })
+    } catch (error) {
         console.log(error.message)
     }
 }

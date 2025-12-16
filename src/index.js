@@ -23,3 +23,10 @@ sendForm({
             id: 'total'
         }
     ] });
+sendForm({
+    formId: 'form2'
+});
+
+sendForm({
+    formId: 'form3'
+});
