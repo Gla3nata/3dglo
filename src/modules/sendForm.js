@@ -6,16 +6,33 @@ const sendForm = ({ formId, someElem = [] }) => {
     const successText = 'Спасибо. Наш менеджер свяжется с Вами!'
 
 
-    const validate = (list) => {
-        let success = true
+    const validate = (inputs) => {
+        let valid = true;
 
-        // list.forEach(input => {
-        //     if (!input.classList.contains('success')) {
-        //         success = false
-        //     }
-        // })
-        return success
-    }
+        inputs.forEach(input => {
+            if (input.name === 'user_name' && input.value.trim().length < 2) {
+                valid = false;
+            }
+
+            if (input.name === 'user_phone' && input.value.replace(/\D/g, '').length < 11) {
+                valid = false;
+            }
+
+            if (input.type === 'email' && !/^\S+@\S+\.\S+$/.test(input.value)) {
+                valid = false;
+            }
+
+            if (input.value.trim() === '') {
+                valid = false;
+            }
+        });
+
+        if (!valid) {
+            alert('Заполните поля корректно');
+        }
+
+        return valid;
+    };
 
     const sendData = (data) => {
         return fetch('https://jsonplaceholder.typicode.com/posts', {
@@ -32,8 +49,8 @@ const sendForm = ({ formId, someElem = [] }) => {
         const formData = new FormData(form)
         const formBody = {}
 
-        statusBlock.textContent = loadText
-        form.append(statusBlock)
+        // statusBlock.textContent = loadText
+        // form.append(statusBlock)
 
         formData.forEach((val, key) => {
             formBody[key] = val
@@ -52,18 +69,22 @@ const sendForm = ({ formId, someElem = [] }) => {
         console.log('submit');
 
         if (validate(formElements)) {
+            statusBlock.textContent = loadText;
+            form.append(statusBlock);
+
             sendData(formBody)
-                .then(data => {
-                    statusBlock.textContent = successText
-                    formElements.forEach(input => {
-                        input.value = ''
-                    })
+                .then(() => {
+                    statusBlock.textContent = successText;
+
+                    setTimeout(() => {
+                        statusBlock.remove();
+                    }, 3000);
+
+                    formElements.forEach(input => input.value = '');
                 })
-                .catch(error => {
-                    statusBlock.textContent = errorText
-                })
-        } else {
-            alert('заполнить данные')
+                .catch(() => {
+                    statusBlock.textContent = errorText;
+                });
         }
     }
 
@@ -71,6 +92,8 @@ const sendForm = ({ formId, someElem = [] }) => {
         const phoneInputs = form.querySelectorAll('input[name="user_phone"]');
         const nameInputs = form.querySelectorAll('input[name="user_name"]');
         const messageInputs = form.querySelectorAll('[name="user_message"]');
+        const emailInputs = form.querySelectorAll('input[type="email"]');
+
 
         phoneInputs.forEach(input => {
             input.addEventListener('input', () => {
@@ -87,6 +110,13 @@ const sendForm = ({ formId, someElem = [] }) => {
         messageInputs.forEach(input => {
             input.addEventListener('input', () => {
                 input.value = input.value.replace(/[^А-Яа-яЁё\s0-9.,!?-]/g, '');
+            });
+        });
+        emailInputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                if (!/^\S+@\S+\.\S+$/.test(input.value)) {
+                    input.value = '';
+                }
             });
         });
     };
